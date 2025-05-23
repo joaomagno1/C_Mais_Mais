@@ -1,1 +1,1 @@
-# Exercicíos Estrutura de Dados do Valtemir.
+# Exercicíos de Estrutura de Dados e Lógica e Algoritmos do Valtemir.
