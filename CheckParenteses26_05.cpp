@@ -91,7 +91,7 @@ void Enfileira(Fila *F, char Valor){
 	}
 }
 
-Item * Desenfileira(Fila *F){		
+Item* Desenfileira(Fila *F){		
 	Item *Ret;
 
 	Ret = NULL;
@@ -113,11 +113,20 @@ Item * Desenfileira(Fila *F){
 	return Ret;
 }
 
-void Imprimir_Pilha(Pilha *P){
+Item* Cria_Elemento(char Valor){
+	Item *Elemento;
+
+	Elemento = (Item *) malloc(sizeof(Item));
+	Elemento->Valor = Valor;
+
+	return Elemento;	
+}
+
+void Imprime_Pilha(Pilha *P){
 	Item* ItemP;
 	cout<<"***** PILHA ***** " << "\n";
 	for(ItemP=P->Topo;ItemP!= NULL;ItemP = ItemP->Prox){
-		cout << "\n" << ItemP->Valor;
+		cout << ItemP->Valor;
 	}	
 }
 
@@ -135,19 +144,73 @@ void Imprime_Fila(Fila *F, Item *ProxItem){
 	}
 }
 
+int ProcessaParenteses(Fila *F){
+	Pilha P;
+	Item *ItemF;
+	int Ret = 1;
+	
+	Ini_Pilha(&P);
+	while(Fila_Vazia(F) == 0 && Ret == 1){ //retira da pilha e verifica se deve incluir na pilha ou comparar com o topo
+		ItemF = Desenfileira(F);
+		if (ItemF->Valor == '('){
+			Empilha(&P, ItemF->Valor);
+		}
+		else{ //')'
+			if (P.Tamanho > 0 && P.Topo->Valor == '('){
+				Desempilha(&P);	
+			}
+			else{ //Se não for fechamento dos parênteses ou a pilha está vazia, ? erro!!
+			    //cout << endl << "Gerou erro. Tamanho = " << P.Tamanho << ", valor na pilha = " << P.Topo->Valor << " e valor da fila = " << Item->Valor;
+				Ret = -1;
+			}
+		}
+	}
+	
+	if(P.Tamanho > 0 && Ret == 1){ //Se sobrou elementos na pilha, ? erro
+		//cout << endl << "Erro fora do loop!!";
+		Ret = -1;
+	}
+	
+	return Ret;
+}
+
 Pilha P;
 Fila F;
+Item *Elemento;
 int main(){	
 	setlocale(LC_ALL,"Portuguese");
-	
+	int Elemento;
 	Ini_Fila(&F);
 	Ini_Pilha(&P);
 	
+
 	Enfileira(&F, '(');
 	Enfileira(&F, '(');
 	Enfileira(&F, ')');
+	Enfileira(&F, ')');
+	Enfileira(&F, '(');
 	Enfileira(&F, ')');
     Imprime_Fila(&F, F.Inicio);
+    if(ProcessaParenteses(&F) == 1){
+    	cout << "\n" << "Parênteses OK!!!";
+	}
+	else{
+		cout << "\n" << "<!ERRO!> Parênteses!";
+	}
+	/*Desenfileira(&F);
+	Elemento = Desenfileira(&F);
+	cout << "\n" << "Item desenfileirado: " << Elemento;
+	
+	Empilha(&P, ')');
+	Empilha(&P, ')');
+	Empilha(&P, '(');
+	Empilha(&P, '(');
+    Imprime_Pilha(&P);
+	Desempilha(&P);
+	Elemento = Desempilha(&P);
+	cout << "\n" << "Item desempilhado: " << Elemento.Valor;
+	Imprime_Pilha(&P);
+	*/
 	
 	return 0;
 }
