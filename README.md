@@ -1,1 +1,2 @@
-# Exercicíos de Estrutura de Dados e Lógica e Algoritmos do Valtemir.
+# Exercicíos de Estrutura de Dados // Lógica e Algoritmos do Mestre Valtemir.
+## IFSP - BRI
