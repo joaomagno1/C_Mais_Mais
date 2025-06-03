@@ -99,6 +99,26 @@ void ImprimeArvore(No* NoArv, string Tipo, char TipoValor) {
 	}
 }
 
+int Altura(No* NoArv){
+	int Ret, AltDir, AltEsq;
+	
+	if (NoArv != NULL){
+		AltEsq = Altura(NoArv->Esq);
+		AltDir = Altura(NoArv->Dir);
+		
+		if (AltEsq > AltDir){
+			Ret = AltEsq + 1;
+		}
+		else{
+			Ret = AltDir + 1;
+		}
+	}
+	else{
+		Ret = -1;
+	}
+	return Ret;
+}
+
 Arvore Arv;
 No *Item, *ItemD, *ItemE;
 int main(){	
@@ -119,21 +139,26 @@ int main(){
 	InsereNoArv(&Arv, 5, "5", ItemD, "E");
 	Item = InsereNoArv(&Arv, 6, "6", ItemD, "D");
 	ItemE = InsereNoArv(&Arv, 8, "8", Item, "E");
-	InsereNoArv(&Arv, 9, "9", Item, "D");
+	InsereNoArv(&Arv, 9, "9", Item, "D");	
 	InsereNoArv(&Arv, 12, "C", ItemE, "E");
 	
 	if (Arv.Raiz != NULL){
 		// 1 2 4 7 A B 3 5 6 8 C 9 - Pré-Ordem;
 		// A 7 B 4 2 1 5 3 C 8 6 9 - Ordem-Central;
 		// A B 7 4 2 5 C 8 9 6 3 1 - Pos-Ordem;
+		
 		cout << "Pré-Ordem:" << "\n";
 		ImprimeArvore(Arv.Raiz, "PRE", 'T');
 		
 		cout << "\n" << "Ordem-Central:" << "\n";
 		ImprimeArvore(Arv.Raiz, "CEN", 'T');
 		
-		cout << "\n" << "Pos-Ordem" << "\n";
+		cout << "\n" << "Pos-Ordem:" << "\n";
 		ImprimeArvore(Arv.Raiz, "POS", 'T');
+			
+		cout << "\n" << "Altura: " << Altura(Arv.Raiz);
 	}
+	
+	
 	return 0;
 }
