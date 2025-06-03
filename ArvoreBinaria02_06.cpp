@@ -124,6 +124,8 @@ No *Item, *ItemD, *ItemE;
 int main(){	
 	setlocale(LC_ALL,"Portuguese");
 	
+	/*
+//	Arvore Apresentação:
 	Ini_Arvore(&Arv);
 	Item = InsereNoArv(&Arv, 1, "1", NULL, ""); //raiz
 	ItemE = InsereNoArv(&Arv, 2, "2", Item, "E");
@@ -141,22 +143,45 @@ int main(){
 	ItemE = InsereNoArv(&Arv, 8, "8", Item, "E");
 	InsereNoArv(&Arv, 9, "9", Item, "D");	
 	InsereNoArv(&Arv, 12, "C", ItemE, "E");
+	*/
+	
+//	Arvore da expressão matemática:
+	Item = InsereNoArv(&Arv, 0, "*", NULL, "");
+	
+	InsereNoArv(&Arv, 5, "5", Item, "E");
+	ItemD = InsereNoArv(&Arv, 0, "+", Item, "D");
+	ItemE = InsereNoArv(&Arv, 0, "*", ItemD, "E");
+	InsereNoArv(&Arv, 7, "7", ItemD, "D");
+	Item = InsereNoArv(&Arv, 0, "+", ItemE, "E");
+	ItemD = InsereNoArv(&Arv, 0, "*", ItemE, "D");
+	InsereNoArv(&Arv, 9, "9", Item, "E");
+	InsereNoArv(&Arv, 8, "8", Item, "D");
+	InsereNoArv(&Arv, 4, "4", ItemD, "E");
+	InsereNoArv(&Arv, 6, "6", ItemD, "D");
 	
 	if (Arv.Raiz != NULL){
 		// 1 2 4 7 A B 3 5 6 8 C 9 - Pré-Ordem;
 		// A 7 B 4 2 1 5 3 C 8 6 9 - Ordem-Central;
 		// A B 7 4 2 5 C 8 9 6 3 1 - Pos-Ordem;
-		
+		/*
 		cout << "Pré-Ordem:" << "\n";
 		ImprimeArvore(Arv.Raiz, "PRE", 'T');
+		cout << "\n";
 		
-		cout << "\n" << "Ordem-Central:" << "\n";
+		cout << "\n" << "Ordem-Central:" << "\n";	
 		ImprimeArvore(Arv.Raiz, "CEN", 'T');
+		cout << "\n";
 		
 		cout << "\n" << "Pos-Ordem:" << "\n";
 		ImprimeArvore(Arv.Raiz, "POS", 'T');
-			
-		cout << "\n" << "Altura: " << Altura(Arv.Raiz);
+		cout << "\n";	
+		
+		cout << "\n" << "Altura: " << Altura(Arv.Raiz->Dir);
+		cout << "\n" << Arv.Raiz->Dir->Esq->ValorTexto;
+		*/
+//		5 9 8 + 4 6 * * 7 + *
+		cout << "Expressão Matemática em Pos-ordém: " << "\n";		
+		ImprimeArvore(Arv.Raiz, "POS", 'T');
 	}
 	
 	
