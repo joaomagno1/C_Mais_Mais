@@ -189,9 +189,43 @@ No* InsereNoArvOrdRec(Arvore* Arv, No* NoArv, int ValorNum, string ValorTexto){
 		Arv->TotalElem++;
 		Ret = Item;
 	}
+	else{
+		if (NoArv == NULL){
+			NoArv = Arv->Raiz; 
+		}
+		if (ValorNum == NoArv->ValorNum){
+			Ret = NULL; 
+		}
+		else{	
+			if (ValorNum > NoArv->ValorNum&&NoArv->Dir == NULL){
+				Item = CriaNo(ValorNum, ValorTexto);
+				NoArv->Dir = Item;
+				Arv->TotalElem++;
+				
+				Ret = Item;
+			}
+			else{
+				if (ValorNum < NoArv->ValorNum&&NoArv->Esq == NULL){
+					Item = CriaNo(ValorNum, ValorTexto);
+					NoArv->Esq = Item;
+					Arv->TotalElem++;
+				
+					Ret = Item;
+				}
+				else{
+					if(ValorNum > NoArv->ValorNum){
+						Ret = InsereNoArvOrdRec(Arv, NoArv->Dir, ValorNum, ValorTexto);			
+					}
+					else{
+						Ret = InsereNoArvOrdRec(Arv, NoArv->Esq, ValorNum, ValorTexto);			
+					}
+				}
+			}
+		}
+	}
+			
 	return Ret;
 }
-
 Arvore Arv;
 int main () {
 	setlocale (LC_ALL,"Portuguese");
@@ -214,10 +248,21 @@ int main () {
 	*/
 	
 	InsereNoArvOrdRec(&Arv, NULL, 6, "6");
+	InsereNoArvOrdRec(&Arv, NULL, 5, "5");
+	InsereNoArvOrdRec(&Arv, NULL, 8, "8");
+	InsereNoArvOrdRec(&Arv, NULL, 4, "4");
+	InsereNoArvOrdRec(&Arv, NULL, 7, "7");
+	InsereNoArvOrdRec(&Arv, NULL, 11, "B");
+	InsereNoArvOrdRec(&Arv, NULL, 2, "2");
+	InsereNoArvOrdRec(&Arv, NULL, 1, "1");
+	InsereNoArvOrdRec(&Arv, NULL, 3, "3");
+	InsereNoArvOrdRec(&Arv, NULL, 10, "A");
+	InsereNoArvOrdRec(&Arv, NULL, 12, "C");
+	InsereNoArvOrdRec(&Arv, NULL, 9, "9");
 	
 	if(Arv.Raiz != NULL){
 		cout << "Pré-Ordem:" << "\n";
-		//6, 5, 4, 2, 1, 3, 8, 7, B, A, 9, C
+		
 		ImprimeArvore(Arv.Raiz, "PRE", 'T');
 		cout << "\n";
 		
@@ -230,7 +275,6 @@ int main () {
 		cout << "\n" << "Pos-Ordem:" << "\n";
 		ImprimeArvore(Arv.Raiz, "POS", 'T');
 		cout << "\n";
-		
 	}
 	
 	
