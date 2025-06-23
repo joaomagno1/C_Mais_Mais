@@ -109,7 +109,12 @@ int main(){
 	cout << "Vetor não ordenado:"<<endl;
 	Imprimir(&L);
 	
-	//Tempo = clock();
+	Tempo = clock();
+	
+	Tempo = clock() - Tempo;//tempo decorrido!!
+	cout << endl <<"Vetor ordenado:"<<endl;
+	Imprimir(&L);
+	cout << endl << endl << "Tempo de Ordenação: " << ((double) Tempo)/((CLOCKS_PER_SEC/1000)) << " milisegundos.";
 	
 	return 0;
 }
