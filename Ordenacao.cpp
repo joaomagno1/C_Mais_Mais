@@ -73,15 +73,15 @@ void CarregaLista(Lista *L){
     }
     else{
 		Inserir(L, 7);
-		Inserir(L, 2);
-		Inserir(L, 4);
+		Inserir(L, 12);
+		Inserir(L, 7);
 		Inserir(L, 8);
 		Inserir(L, 5);		
-		Inserir(L, 16);
-		Inserir(L, 13);
+		Inserir(L, -16);
+		Inserir(L, 2);
 		Inserir(L, 103);
 		Inserir(L, 22);
-		Inserir(L, 11);
+		Inserir(L, 103);
     }    
 }
 
@@ -93,16 +93,28 @@ void Swap(Lista *L, int Origem, int Destino){
 	L->Dados[Origem] = Aux;	
 }
 
-
-
-
+void SelectionSort(Lista *L, int Inicio, int Fim){
+	int I, J, Min;
+	
+	for (I = Inicio; I <= Fim; I++){
+		Min = I;
+		
+		for(J = I+1; J <= Fim; J++){
+			if (L->Dados[J].Chave < L->Dados[Min].Chave){
+				Min = J;
+			}
+		}
+		
+		Swap(L, I, Min);		
+	}		
+}
 
 Lista L;
 clock_t Tempo;
 int main(){	
 	setlocale(LC_ALL,"Portuguese");
 	
-	Ini_Lista(&L);
+	Ini_Lista(&L);	
 	
 	CarregaLista(&L);
 
@@ -110,6 +122,9 @@ int main(){
 	Imprimir(&L);
 	
 	Tempo = clock();
+	
+	//exec da ordenação
+	SelectionSort(&L, 0, MAX-1);
 	
 	Tempo = clock() - Tempo;//tempo decorrido!!
 	cout << endl <<"Vetor ordenado:"<<endl;
