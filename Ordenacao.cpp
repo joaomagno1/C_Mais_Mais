@@ -109,6 +109,55 @@ void SelectionSort(Lista *L, int Inicio, int Fim){
 	}		
 }
 
+void SelectionSortRecursivo(Lista *L, int Inicio, int Fim){
+	int J, Min;
+	
+	//for (I = Inicio; I <= Fim; I++){
+	if(Inicio <= Fim){
+		Min = Inicio;
+		
+		for(J = Inicio+1; J <= Fim; J++){
+			if (L->Dados[J].Chave < L->Dados[Min].Chave){
+				Min = J;
+			}
+		}
+		
+		Swap(L, Inicio, Min);
+		SelectionSortRecursivo(L, Inicio + 1, Fim); //recursão
+	}
+}
+
+void InsertionSort(Lista *L, int Inicio, int Fim){
+	int I, J;
+	
+	for (I = Inicio+1; I <= Fim; I++){
+		J = I;
+		
+		while(J>0 && L->Dados[J].Chave < L->Dados[J-1].Chave){
+			Swap(L, J, J-1);
+			J--;
+		}
+	}	
+}
+
+void BubbleSort(Lista *L, int Inicio, int Fim){
+	int I, J;	
+	bool Swapped = false;
+	
+	I=0;	
+	do{
+		Swapped = false;
+		for (J=Fim;J>I;J--){
+			if (L->Dados[J].Chave < L->Dados[J-1].Chave){
+				Swap(L, J, J-1);
+				Swapped = true;
+			}
+		}
+		
+		I++; 
+	} while(Swapped && I <= Fim);
+}
+
 Lista L;
 clock_t Tempo;
 int main(){	
@@ -123,8 +172,15 @@ int main(){
 	
 	Tempo = clock();
 	
-	//exec da ordenação
-	SelectionSort(&L, 0, MAX-1);
+	//exec das ordenações
+	
+	//SelectionSort(&L, 0, MAX-1);
+	
+	//InsertionSort(&L, 0, MAX-1);
+	
+	//BubbleSort(&L, 0, MAX-1);
+	
+	SelectionSortRecursivo(&L, 0, MAX-1);
 	
 	Tempo = clock() - Tempo;//tempo decorrido!!
 	cout << endl <<"Vetor ordenado:"<<endl;
