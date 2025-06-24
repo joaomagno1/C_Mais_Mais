@@ -72,7 +72,7 @@ void CarregaLista(Lista *L){
         }        
     }
     else{
-		Inserir(L, 7);
+		/*Inserir(L, 7);
 		Inserir(L, 12);
 		Inserir(L, 7);
 		Inserir(L, 8);
@@ -81,7 +81,17 @@ void CarregaLista(Lista *L){
 		Inserir(L, 2);
 		Inserir(L, 103);
 		Inserir(L, 22);
-		Inserir(L, 103);
+		Inserir(L, 103);*/
+		Inserir(L, 4);
+		Inserir(L, 2);
+		Inserir(L, 8);
+		Inserir(L, 6);
+		Inserir(L, 0);		
+		Inserir(L, 5);
+		Inserir(L, 1);
+		Inserir(L, 7);
+		Inserir(L, 3);
+		Inserir(L, 9);
     }    
 }
 
@@ -158,6 +168,113 @@ void BubbleSort(Lista *L, int Inicio, int Fim){
 	} while(Swapped && I <= Fim);
 }
 
+void MergeSort(Lista* L, int Inicio, int Fim, int Debug){
+    int Meio, Cont, ContA, ContB;
+    Elemento* Aux;
+    
+    if (Inicio < Fim){
+        Meio = (Inicio + Fim)/2;
+        
+        //Quebra em vetores menores (metade)
+        if (Debug) {
+        	cout << "\nMergeSort(" << Inicio << "," << Meio << ")\n";
+        	system("pause");
+		}  
+        MergeSort(L, Inicio, Meio, Debug); //VetorA (Esq)
+        if (Debug) {
+        	cout << "\nMergeSort(" << Meio+1 << "," << Fim << ")\n";
+        	system("pause");
+		} 
+        MergeSort(L, Meio+1, Fim, Debug); //VetorB (Dir)
+        
+        //Merge
+        //Criação do vetor auxiliar
+        //Junta as partes (merge), pegando sempre o menor elemento de cada parte
+        //de forma ordenada
+        Aux = (Elemento *) malloc(sizeof(Elemento) * (Fim - Inicio + 1));
+        ContA = Inicio;
+        ContB = Meio+1;
+        Cont = 0;
+        
+      	if (Debug) {
+        	cout << "\nInicio: " << Inicio << " Meio: " << Meio << " Fim: " << Fim;
+        	cout << "\nContA:" << ContA;
+        	cout << "\nContB:" << ContB;
+        	cout << "\nCont:" << Cont << "\n";
+        	system("pause");
+		} 
+        
+        //Repete enquanto tiver subvetor a percorrer
+        while (ContA <= Meio || ContB <= Fim){
+        	if (ContA > Meio){ //final do VetorA
+                Aux[Cont] = L->Dados[ContB];
+                
+                if (Debug) {
+        			cout << "\nJá processou vetor esquerdo (A). Copiando vetor direito (B)";
+        			cout << "\nContA:" << ContA;
+        			cout << "\nContB:" << ContB;
+        			cout << "\nCont:" << Cont << "\n";
+        			system("pause");
+				} 
+                ContB++; 
+        	}
+        	else{
+        		if (ContB > Fim){ //final do VetorB
+        			Aux[Cont] = L->Dados[ContA];
+        			
+        			if (Debug) {
+	        			cout << "\nJá processou vetor direito (B). Copiando vetor esquerdo (A)";
+	        			cout << "\nContA:" << ContA;
+	        			cout << "\nContB:" << ContB;
+	        			cout << "\nCont:" << Cont << "\n";
+	        			system("pause");
+	       			}	
+                	ContA++; 
+        		}
+        		else{
+        			if (L->Dados[ContA].Chave < L->Dados[ContB].Chave){ //meio do VetorA 
+        				Aux[Cont] = L->Dados[ContA];
+        				
+        				if (Debug) {
+		        			cout << "\n1? item do vetor esquerdo (A) menor do que 1? item do vetor direito (B). Copiando item do vetor (A) para Aux.";
+		        			cout << "\nContA:" << ContA;
+		        			cout << "\nContB:" << ContB;
+		        			cout << "\nCont:" << Cont << "\n";
+		        			system("pause");
+		       			}  
+                		ContA++;	
+        			}
+        			else{ //meio do VetorB
+        				Aux[Cont] = L->Dados[ContB];
+        				
+        				if (Debug) {
+		        			cout << "\n1? item do vetor direito (B) menor ou igual do que 1? item do vetor esquerdo (A). Copiando item do vetor (B) para Aux.";
+		        			cout << "\nContA:" << ContA;
+		        			cout << "\nContB:" << ContB;
+		        			cout << "\nCont:" << Cont << "\n";
+		        			system("pause");
+		       			}   
+                		ContB++;
+					}
+				}
+			}
+        	Cont++;	
+    	}
+        
+        //Copia o merge ordenado dos vetores para o vetor original    
+        for(Cont=Inicio;Cont<=Fim;Cont++){
+            L->Dados[Cont] = Aux[Cont - Inicio];   
+			
+			if (Debug) {
+    			cout << "L["<<Cont<<"].Chave = Aux[" <<Cont - Inicio<<"] (" <<Aux[Cont - Inicio].Chave<<")" << "\n";
+    			system("pause");				
+   			}  			                                                             
+        }    
+        
+        free(Aux);  
+ 	}
+}
+
 Lista L;
 clock_t Tempo;
 int main(){	
@@ -175,12 +292,13 @@ int main(){
 	//exec das ordenações
 	
 	//SelectionSort(&L, 0, MAX-1);
+	//SelectionSortRecursivo(&L, 0, MAX-1);
 	
 	//InsertionSort(&L, 0, MAX-1);
 	
 	//BubbleSort(&L, 0, MAX-1);
 	
-	SelectionSortRecursivo(&L, 0, MAX-1);
+	MergeSort(&L, 0, MAX-1, 0);
 	
 	Tempo = clock() - Tempo;//tempo decorrido!!
 	cout << endl <<"Vetor ordenado:"<<endl;
